@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌸 Catatan Belanja Bunga 🎀</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Patrick+Hand+SC&family=Caveat:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Patrick Hand SC', cursive;
+            /* Latar belakang gradien bunga-bunga pastel */
+            background: linear-gradient(135deg, #F0F8FF 0%, #E0FFFF 50%, #FFEFD5 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #5A5A5A;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 18px 35px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 650px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 3px dashed #FFB6C1; /* Border putus-putus pink bunga */
+        }
+
+        /* Dekorasi bunga-bunga imut di sudut biar lucu aja */
+        .container::before {
+            content: '🌸'; /* Bunga cherry di kiri atas */
+            position: absolute;
+            font-size: 3.8em;
+            opacity: 0.5;
+            top: -25px;
+            left: -25px;
+            transform: rotate(-30deg);
+        }
+        .container::after {
+            content: '🌼'; /* Bunga daisy di kanan bawah */
+            position: absolute;
+            font-size: 3.8em;
+            opacity: 0.5;
+            bottom: -25px;
+            right: -25px;
+            transform: rotate(30deg);
+        }
+
+        h1 {
+            font-family: 'Gochi Hand', cursive;
+            color: #FF69B4; /* Pink cerah tetap menonjol */
+            font-size: 3.5em;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 0 #FFF;
+        }
+
+        .input-section {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            align-items: center;
+        }
+
+        .input-section input[type="text"] {
+            flex-grow: 1;
+            padding: 16px 22px;
+            border: 3px solid #DDA0DD; /* Border ungu lavender */
+            border-radius: 20px;
+            font-size: 1.3em;
+            font-family: 'Caveat', cursive;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: #F8F8FF; /* Putih keunguan */
+            color: #4A4A4A;
+        }
+
+        .input-section input[type="text"]::placeholder {
+            color: #C0C0C0;
+        }
+
+        .input-section input[type="text"]:focus {
+            border-color: #FFB6C1; /* Berubah jadi pink pastel saat fokus */
+            box-shadow: 0 0 12px rgba(255, 182, 193, 0.6);
+        }
+
+        .add-button {
+            background-color: #98FB98; /* Hijau mint pastel */
+            color: #333;
+            border: none;
+            padding: 16px 28px;
+            border-radius: 20px;
+            font-size: 1.9em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 6px 0 #7CFC00; /* Efek 3D hijau lebih gelap */
+            font-family: 'Gochi Hand', cursive;
+        }
+
+        .add-button:hover {
+            background-color: #7CFC00;
+            transform: translateY(2px);
+            box-shadow: 0 4px 0 #6B8E23;
+        }
+
+        .search-section {
+            margin-bottom: 25px;
+        }
+
+        .search-section input[type="text"] {
+            width: calc(100% - 40px);
+            padding: 14px 20px;
+            border: 2px solid #ADD8E6; /* Biru muda */
+            border-radius: 20px;
+            font-size: 1.2em;
+            font-family: 'Caveat', cursive;
+            outline: none;
+            background-color: #F8F8FF;
+            color: #4A4A4A;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .search-section input[type="text"]:focus {
+            border-color: #FFB6C1;
+            box-shadow: 0 0 10px rgba(255, 182, 193, 0.5);
+        }
+
+        .shopping-list {
+            list-style: none;
+            padding: 0;
+            max-height: 450px;
+            overflow-y: auto;
+            padding-right: 15px;
+        }
+
+        /* Scrollbar kustom pastel */
+        .shopping-list::-webkit-scrollbar {
+            width: 12px;
+        }
+        .shopping-list::-webkit-scrollbar-track {
+            background: #FDF5E6; /* Warna krim pastel */
+            border-radius: 10px;
+        }
+        .shopping-list::-webkit-scrollbar-thumb {
+            background: #FFDAB9; /* Peach pastel */
+            border-radius: 10px;
+            border: 2px solid #FDF5E6;
+        }
+        .shopping-list::-webkit-scrollbar-thumb:hover {
+            background: #FFB6C1; /* Pink pastel */
+        }
+
+        .shopping-item {
+            background-color: #FFFACD; /* Kuning lemon pastel */
+            margin-bottom: 18px;
+            padding: 18px 25px;
+            border-radius: 15px;
+            box-shadow: 6px 6px 0 #FFEFD5; /* Bayangan lebih lembut */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.4em;
+            word-break: break-word;
+            position: relative;
+            transition: all 0.3s ease;
+            transform: rotate(calc((random() - 0.5) * 3deg)); /* Rotasi lebih halus */
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .shopping-item.pinned {
+            background-color: #ADD8E6; /* Biru muda pastel saat disematkan */
+            order: -1;
+            box-shadow: 6px 6px 0 #87CEEB;
+        }
+
+        .shopping-item .item-text {
+            flex-grow: 1;
+            text-align: left;
+            margin-right: 15px;
+        }
+
+        .shopping-item .actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .shopping-item button {
+            background: none;
+            border: none;
+            font-size: 1.6em;
+            cursor: pointer;
+            transition: transform 0.2s ease, color 0.3s ease;
+            color: #8A2BE2; /* Warna ungu */
+        }
+
+        .shopping-item button:hover {
+            transform: scale(1.25);
+        }
+
+        .shopping-item .delete-button {
+            color: #FF6347; /* Oranye tomat pastel */
+        }
+        .shopping-item .pin-button {
+            color: #DAA520; /* Emas kusam */
+        }
+        .shopping-item.pinned .pin-button {
+            color: #4682B4; /* Biru baja saat sudah disematkan */
+        }
+
+        /* Efek pin lucu */
+        .shopping-item.pinned::before {
+            content: '📌';
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%) rotate(15deg);
+            font-size: 2.2em;
+            filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.2));
+        }
+
+        /* Pesan kosong */
+        #emptyMessage {
+            font-family: 'Caveat', cursive;
+            font-size: 1.8em;
+            color: #A9A9A9;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        /* Responsif */
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+                border-radius: 20px;
+            }
+            h1 {
+                font-size: 2.8em;
+            }
+            .input-section {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .input-section input[type="text"],
+            .search-section input[type="text"] {
+                width: calc(100% - 20px);
+                padding: 12px 15px;
+                font-size: 1.1em;
+            }
+            .add-button {
+                width: 100%;
+                font-size: 1.6em;
+                padding: 12px 20px;
+            }
+            .shopping-item {
+                font-size: 1.2em;
+                padding: 12px 18px;
+            }
+            .shopping-item button {
+                font-size: 1.4em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌸 Catatan Belanja Bunga 🎀</h1>
+
+        <div class="input-section">
+            <input type="text" id="itemInput" placeholder="Misalnya: Biskuit Hati, Sabun Mawar..." onkeyup="handleInputEnter(event)">
+            <button class="add-button" onclick="addItem()">Tambahkan ✨</button>
+        </div>
+
+        <div class="search-section">
+            <input type="text" id="searchInput" placeholder="Cari barang imutmu..." onkeyup="searchItems()">
+        </div>
+
+        <ul id="shoppingList" class="shopping-list">
+            </ul>
+        <p id="emptyMessage" style="display: none;">Daftar belanja masih kosong, ayo isi! 😊</p>
+    </div>
+
+    <script>
+        // Memuat item saat halaman selesai dimuat
+        document.addEventListener('DOMContentLoaded', loadItems);
+
+        // Fungsi untuk menangani enter pada input item
+        function handleInputEnter(event) {
+            if (event.key === 'Enter') {
+                addItem();
+            }
+        }
+
+        // Fungsi untuk menambahkan item baru
+        function addItem() {
+            const itemInput = document.getElementById('itemInput');
+            const itemName = itemInput.value.trim();
+
+            if (itemName === '') {
+                alert('Nama barang tidak boleh kosong, lho! 😅');
+                return;
+            }
+
+            const item = {
+                name: itemName,
+                id: Date.now(), // ID unik berdasarkan timestamp
+                isPinned: false
+            };
+
+            saveItem(item); // Simpan ke localStorage
+            itemInput.value = ''; // Kosongkan input setelah ditambahkan
+            loadItems(); // Muat ulang item untuk memastikan item baru muncul di atas dan urutan tetap
+            document.getElementById('searchInput').value = ''; // Kosongkan pencarian setelah menambah
+        }
+
+        // Fungsi untuk menampilkan (render) item ke HTML
+        function renderItem(item) {
+            const shoppingList = document.getElementById('shoppingList');
+
+            const li = document.createElement('li');
+            li.className = 'shopping-item';
+            li.dataset.id = item.id; // Untuk identifikasi saat hapus/sematkan
+
+            if (item.isPinned) {
+                li.classList.add('pinned');
+            }
+
+            li.innerHTML = `
+                <span class="item-text">${item.name}</span>
+                <div class="actions">
+                    <button class="pin-button" onclick="togglePin(${item.id})">
+                        ${item.isPinned ? '<i class="fas fa-thumbtack"></i>' : '<i class="fas fa-map-pin"></i>'}
+                    </button>
+                    <button class="delete-button" onclick="deleteItem(${item.id})">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            `;
+            // Ini yang penting: Kita tidak lagi menggunakan appendChild atau prepend di sini.
+            // Kita akan membiarkan loadItems() yang mengatur urutan dan penambahan.
+            shoppingList.appendChild(li); // Cukup tambahkan ke daftar
+        }
+
+        // Fungsi untuk menghapus item
+        function deleteItem(id) {
+            if (confirm('Yakin mau hapus item ini? Nanti nggak kebeli, lho! 🥺')) {
+                let items = getItems();
+                items = items.filter(item => item.id !== id);
+                localStorage.setItem('shoppingList', JSON.stringify(items));
+
+                // Muat ulang daftar setelah menghapus
+                loadItems();
+                document.getElementById('searchInput').value = ''; // Kosongkan pencarian setelah menghapus
+            }
+        }
+
+        // Fungsi untuk menyematkan/melepas sematan item
+        function togglePin(id) {
+            let items = getItems();
+            const itemIndex = items.findIndex(item => item.id === id);
+
+            if (itemIndex > -1) {
+                items[itemIndex].isPinned = !items[itemIndex].isPinned;
+                localStorage.setItem('shoppingList', JSON.stringify(items));
+
+                // Muat ulang daftar setelah mengubah status pin
+                loadItems();
+                document.getElementById('searchInput').value = ''; // Kosongkan pencarian setelah pin
+            }
+        }
+
+        // Fungsi untuk menyimpan satu item (setelah ditambahkan)
+        function saveItem(item) {
+            const items = getItems();
+            items.push(item);
+            localStorage.setItem('shoppingList', JSON.stringify(items));
+        }
+
+        // Fungsi untuk mendapatkan semua item dari localStorage
+        function getItems() {
+            const itemsString = localStorage.getItem('shoppingList');
+            return itemsString ? JSON.parse(itemsString) : [];
+        }
+
+        // Fungsi untuk memuat dan menampilkan semua item dari localStorage (termasuk pengurutan)
+        function loadItems() {
+            const shoppingList = document.getElementById('shoppingList');
+            shoppingList.innerHTML = ''; // Kosongkan daftar sebelum me-render ulang
+
+            const items = getItems();
+            // Urutkan item: yang disematkan di depan, lalu yang terbaru di atas
+            items.sort((a, b) => {
+                if (a.isPinned && !b.isPinned) return -1; // Item disematkan duluan
+                if (!a.isPinned && b.isPinned) return 1; // Item disematkan duluan
+                return b.id - a.id; // Lalu, yang terbaru (ID lebih besar) di atas
+            });
+
+            items.forEach(item => renderItem(item));
+            updateEmptyMessage();
+        }
+
+        // Fungsi pencarian
+        function searchItems() {
+            const searchInput = document.getElementById('searchInput');
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const allItems = getItems();
+            const shoppingList = document.getElementById('shoppingList');
+            shoppingList.innerHTML = ''; // Kosongkan tampilan
+
+            let filteredItems;
+            if (searchTerm === '') {
+                filteredItems = allItems;
+            } else {
+                filteredItems = allItems.filter(item =>
+                    item.name.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            // Urutkan item yang difilter sama seperti saat loadItems
+            filteredItems.sort((a, b) => {
+                if (a.isPinned && !b.isPinned) return -1;
+                if (!a.isPinned && b.isPinned) return 1;
+                return b.id - a.id;
+            });
+
+            filteredItems.forEach(item => renderItem(item));
+            updateEmptyMessage(filteredItems.length === 0);
+        }
+
+        // Fungsi untuk memperbarui pesan "daftar kosong"
+        function updateEmptyMessage(isFilteredEmpty = false) {
+            const shoppingList = document.getElementById('shoppingList');
+            const emptyMessage = document.getElementById('emptyMessage');
+            const totalItemsInStorage = getItems().length; // Jumlah item di storage
+
+            // Tentukan apakah daftar yang ditampilkan kosong
+            const isDisplayEmpty = shoppingList.children.length === 0;
+
+
+            if (totalItemsInStorage === 0) {
+                // Jika tidak ada item sama sekali di storage
+                emptyMessage.textContent = 'Daftar belanja masih kosong, ayo isi! 😊';
+                emptyMessage.style.display = 'block';
+            } else if (isFilteredEmpty && totalItemsInStorage > 0) {
+                // Jika ada item di storage tapi hasil filter kosong
+                emptyMessage.textContent = 'Tidak ada barang yang cocok dengan pencarianmu. 😔';
+                emptyMessage.style.display = 'block';
+            } else {
+                // Jika ada item dan tidak sedang difilter kosong, atau filter ada hasilnya
+                emptyMessage.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
+
